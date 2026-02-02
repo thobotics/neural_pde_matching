@@ -36,7 +36,7 @@ model:
   num_messages: 15
 
 env:
-  name: "CylinderFlowEnv"
+  name: "CylinderFlowLongEnv"
   input_keys: ["PROPERTIES", "STATE", "STATE_DOT"]
   output_keys: ["STATE", "STATE_DOT"]
   ignore_n_initial_steps: 0

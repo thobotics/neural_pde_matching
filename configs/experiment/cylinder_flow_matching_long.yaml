@@ -14,7 +14,7 @@ defaults:
   - _self_
 
 # Global configurations
-experiment_name: CylinderFlow
+experiment_name: CylinderFlowLong
 seed: 42
 lr: 5e-4
 epochs: 5000
@@ -46,7 +46,7 @@ model:
       aggr: AttentionalAggregation
 
 env:
-  name: "CylinderFlowEnv"
+  name: "CylinderFlowLongEnv"
   input_keys: ["PROPERTIES", "STATE", "STATE_DOT"]
   output_keys: ["STATE", "STATE_DOT"]
   ignore_n_initial_steps: 0
