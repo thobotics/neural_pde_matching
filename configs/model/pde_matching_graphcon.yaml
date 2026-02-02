@@ -1,0 +1,24 @@
+# @package _global_
+
+defaults:
+  - default
+
+model:
+  name: PDEMatching
+  dynamic_name: graphcon
+  warmup_steps: 0
+  
+  dynamic_config:
+    hidden_dim: 128
+    num_layers: ${dataset.window_size}
+    dropout: 0.0
+    activation: relu
+    mp_activation: relu
+    layer_norm: False
+    shared_layers: True
+    use_gcn_norm: False
+    alpha: 1.0
+    gamma: 1.0
+    dt: 0.1
+    output_x_v: False
+    aggr: add  # add, mean, max, AttentionalAggregation

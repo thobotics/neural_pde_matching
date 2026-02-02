@@ -1,0 +1,8 @@
+# @package trainer
+_target_: pytorch_lightning.Trainer
+
+# default parameters of `pytorch_lightning.Trainer`
+logger: True
+max_epochs: ${epochs}
+log_every_n_steps: 100
+check_val_every_n_epoch: 5

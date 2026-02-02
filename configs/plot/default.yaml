@@ -1,0 +1,11 @@
+name: mlflow
+
+plot_at_every_n_val_step: 5
+state:
+  n_images: 10
+
+animation:
+  fps: 20.0
+  n_images: 2
+  skip_frames: 1
+  save_local_path: null

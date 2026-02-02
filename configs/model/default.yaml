@@ -1,0 +1,6 @@
+hidden_dim: 128
+latent_dim: 128
+num_messages: 5
+node_encoder_layers: 1
+edge_encoder_layers: 1
+node_decoder_layers: 1

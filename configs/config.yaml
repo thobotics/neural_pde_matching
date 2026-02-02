@@ -1,0 +1,27 @@
+# @package _global_
+# Main configuration file using new structured approach
+
+defaults:
+  - common/defaults
+  - common/hydra
+  - trainer: default
+  - optimizer: adam
+  - scheduler: step
+  - logger: mlflow
+  - plot: mlflow
+  - model: mgn
+  - env: abaqus_plate_deformation
+  - dataset: abaqus_plate_deformation
+  - callbacks: default
+  - override hydra/job_logging: colorlog
+  - override hydra/hydra_logging: colorlog
+  - _self_
+
+# Experiment-specific overrides
+experiment_name: ContinuousMeshGraphNets
+epochs: 500
+batch_size: 32
+val_per_steps: 5
+rollout_train: false
+rollout_val: false
+scheduler: null

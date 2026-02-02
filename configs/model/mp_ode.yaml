@@ -1,0 +1,8 @@
+defaults:
+  - default
+
+name: MessagePassingODE
+num_shooting: ${dataset.window_size}
+integration_dt: 0.1
+shared_processor: False
+dynamic_name: mp_ode

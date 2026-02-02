@@ -1,0 +1,32 @@
+# @package _global_
+
+defaults:
+  - default
+
+model:
+  name: PDEMatching
+  dynamic_name: igns
+  warmup_steps: 0
+  stop_gradient_at_step: 0
+  use_relative_timestep: True
+
+  dynamic_config:
+    hidden_dim: 128
+    num_layers: ${dataset.window_size}
+    num_enc_layers: 1
+    num_dec_layers: 1
+    dropout: 0.0
+    activation: relu
+    mp_activation: tanh
+    aggr: mean
+    shared_layers: True
+    bias: True
+    epsilon: 0.1
+    doubled_dim: False
+    final_state: pq
+    weight_matrix_scale: 10.0
+    damping_factor: 1.0
+    external_force_factor: 0.5
+    using_symplectic_integrator: False
+    ext_force_kwargs:
+      aggr: add  # options: add, mean, max, AttentionalAggregation

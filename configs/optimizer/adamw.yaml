@@ -1,0 +1,5 @@
+# @package optimizer
+# https://pytorch.org/docs/stable/generated/torch.optim.Adam.html
+
+_target_: torch.optim.AdamW
+lr: ${lr} # default: 0.001

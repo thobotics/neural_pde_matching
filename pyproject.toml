@@ -1,0 +1,54 @@
+[project]
+name = "pde-matching"
+version = "0.1.0"
+description = "PDE Trajectory Matching via port-Hamiltonian Dynamics"
+authors = [{name = "Tai Hoang", email = "tai.hoang@kit.edu"}]
+requires-python = ">=3.10,<3.12"
+dependencies = [
+    "torch @ https://download.pytorch.org/whl/cu118/torch-2.1.0%2Bcu118-cp310-cp310-linux_x86_64.whl",
+    "torch-spline-conv @ https://data.pyg.org/whl/torch-2.1.0%2Bcu118/torch_spline_conv-1.2.2%2Bpt21cu118-cp310-cp310-linux_x86_64.whl",
+    "torch-cluster @ https://data.pyg.org/whl/torch-2.1.0%2Bcu118/torch_cluster-1.6.2%2Bpt21cu118-cp310-cp310-linux_x86_64.whl",
+    "torch-scatter @ https://data.pyg.org/whl/torch-2.1.0%2Bcu118/torch_scatter-2.1.2%2Bpt21cu118-cp310-cp310-linux_x86_64.whl",
+    "torch-sparse @ https://data.pyg.org/whl/torch-2.1.0%2Bcu118/torch_sparse-0.6.18%2Bpt21cu118-cp310-cp310-linux_x86_64.whl",
+    "torch-geometric==2.6.1",
+    "numpy==1.26.4",
+    "pytorch-lightning==2.5.2",
+    "tqdm>=4.61.2",
+    "hydra-colorlog>=1.1.0",
+    "hydra-core>=1.1.0",
+    "hydra-submitit-launcher>=1.2.0",
+    "h5py>=3.14.0",
+    "omegaconf>=2.1.0",
+    "wandb>=0.16.4",
+    "tfrecord-lite>=0.0.8",
+    "scikit-fem>=8.1.0",
+    "torchtyping>=0.1.4",
+    "pillow>=9.5.0",
+    "matplotlib>=3.7.1",
+    "plotly>=5.15.0",
+    "meshio>=5.3.5",
+    "torchdiffeq @ git+https://github.com/rtqichen/torchdiffeq.git",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pde_matching"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.pysen]
+version = "0.10.4"
+
+[tool.pysen.lint]
+enable_black = true
+enable_flake8 = true
+enable_isort = true
+enable_mypy = false
+mypy_preset = "strict"
+py_version = "py310"
+[[tool.pysen.lint.mypy_targets]]
+paths = ["."]

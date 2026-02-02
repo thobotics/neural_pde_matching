@@ -1,0 +1,11 @@
+# @package dataset
+# Default dataset configuration
+
+window_size: 40
+window_shift: 1
+val_window_size: 40
+val_window_shift: 10
+train_n_sequences: null
+val_n_sequences: null
+shuffle: true
+pin_memory: true

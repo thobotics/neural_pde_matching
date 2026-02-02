@@ -1,0 +1,69 @@
+# @package _global_
+# Abaqus Plate Deformation MGN experiment
+
+defaults:
+  - /trainer: default
+  - /optimizer: adam
+  - /scheduler: step
+  - /logger: wandb  # wandb or mlflow
+  - /plot: wandb
+  - /model: mgn
+  - /callbacks: default
+  - /cluster: local
+  - override /hydra/job_logging: colorlog
+  - override /hydra/hydra_logging: colorlog
+  - _self_
+
+# Global configurations
+experiment_name: CylinderFlow
+seed: 42
+lr: 5e-4
+epochs: 2000  # default is 50
+batch_size: 8
+num_workers: 16
+scheduler: null
+debug: False
+training_noise: True
+training_noise_std: 1e-2
+val_per_steps: 10
+rollout_train: False
+rollout_val: True
+
+trainer:
+  check_val_every_n_epoch: 5
+
+model:
+  num_messages: 15
+
+env:
+  name: "CylinderFlowEnv"
+  input_keys: ["PROPERTIES", "STATE", "STATE_DOT"]
+  output_keys: ["STATE", "STATE_DOT"]
+  ignore_n_initial_steps: 0
+  training_noise: ${training_noise}
+  training_noise_std: ${training_noise_std}
+  visualizer:
+    n_columns: 3
+    overlayed_ground_truth: False
+
+plot:
+  animation:
+    fps: 10
+    n_images: 6
+    skip_frames: 5
+
+logger:
+  group: CylinderFlow_30
+  job_type: mgn
+  name: cf_mgn_seed=${seed}
+
+dataset:
+  root: /home/taihoang/datasets_new/cylinder_flow_origin
+  window_size: 2
+  window_shift: 1
+  val_window_size: 31
+  val_window_shift: 30
+  train_n_sequences: 200
+  val_n_sequences: null
+  shuffle: True
+  pin_memory: True
