@@ -3,7 +3,7 @@ from typing import Optional
 import torch
 from pde_matching.data.trajectory import DataTrajectory
 from .model_builder import ModelBuilder
-from .networks import GraphCONModel, IGNS
+from .networks import GraphCONModel, IGNSModel
 
 
 @ModelBuilder.register("PDEMatching")
@@ -11,7 +11,7 @@ class PDEMatching(torch.nn.Module):
 
     DYNAMICS_REGISTRY = {
         "graphcon": GraphCONModel,
-        "igns": IGNS,
+        "igns": IGNSModel,
     }
 
     def __init__(

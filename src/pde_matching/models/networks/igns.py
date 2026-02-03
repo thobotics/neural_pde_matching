@@ -394,7 +394,7 @@ class HamiltonianConv(Module):
         return torch.cat([p_n, q_n], dim=-1)
 
 
-class IGNS(Module):
+class IGNSModel(Module):
     def __init__(
         self,
         input_dim: int,
