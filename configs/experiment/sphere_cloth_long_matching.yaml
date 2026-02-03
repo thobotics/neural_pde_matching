@@ -1,0 +1,75 @@
+# @package _global_
+
+defaults:
+  - /trainer: default
+  - /optimizer: adam
+  - /scheduler: step
+  - /logger: wandb  # wandb or mlflow
+  - /plot: wandb
+  - /model: pde_matching_igns
+  - /callbacks: default
+  - /cluster: local
+  - override /hydra/job_logging: colorlog
+  - override /hydra/hydra_logging: colorlog
+  - _self_
+
+# Global configurations
+experiment_name: SphereCloth
+seed: 42
+lr: 5e-4
+epochs: 5000  # default is 50
+batch_size: 8
+num_workers: 4
+scheduler: null
+debug: False
+training_noise: False
+training_noise_std: 1e-2
+val_per_steps: 10
+rollout_train: False
+rollout_val: False
+
+trainer:
+  check_val_every_n_epoch: 20
+
+model:
+  name: PDEMatching
+  warmup_steps: 20
+
+env:
+  name: "SphereClothCouplingLongEnv"
+  input_keys: ["PROPERTIES", "STATE", "STATE_DOT"]
+  output_keys: ["STATE", "STATE_DOT"]
+  connection_radius: 0.3
+  ignore_n_initial_steps: 0
+  training_noise: ${training_noise}
+  training_noise_std: ${training_noise_std}
+  visualizer:
+    plot_elev: 30
+    plot_azim: -60
+    n_columns: 3
+    overlayed_ground_truth: False
+
+plot:
+  animation:
+    fps: 10
+    skip_frames: 4
+    n_images: 3
+  
+  plot_at_every_n_val_step: 5
+
+logger:
+  # group: SphereCloth_100_update
+  group: SphereCloth_100
+  job_type: ${model.dynamic_name}
+  name: scc_${model.dynamic_name}_seed=${seed}
+
+dataset:
+  root: /home/taihoang/datasets_new/sphere_cloth_coupling_v3
+  window_size: 99
+  window_shift: 99
+  val_window_size: 99
+  val_window_shift: 99
+  train_n_sequences: null
+  val_n_sequences: null
+  shuffle: True
+  pin_memory: True

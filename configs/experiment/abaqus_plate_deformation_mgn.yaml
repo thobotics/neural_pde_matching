@@ -1,0 +1,75 @@
+# @package _global_
+# Abaqus Plate Deformation MGN experiment
+
+defaults:
+  - /trainer: default
+  - /optimizer: adam
+  - /scheduler: step
+  - /logger: wandb  # wandb or mlflow
+  - /plot: wandb
+  - /model: mgn
+  - /callbacks: default
+  - /cluster: local
+  - override /hydra/job_logging: colorlog
+  - override /hydra/hydra_logging: colorlog
+  - _self_
+
+# Global configurations
+experiment_name: AbaqusPlateDeformation
+single_step: True
+seed: 42
+lr: 5e-4
+epochs: 2000  # default is 50
+batch_size: 8
+num_workers: 4
+scheduler: null
+debug: False
+training_noise: True
+training_noise_std: 1e-2
+val_per_steps: 10
+rollout_train: False
+rollout_val: True
+
+trainer:
+  check_val_every_n_epoch: 50
+
+model:
+  num_messages: 50
+
+env:
+  name: "AbaqusPlateDeformationEnv"
+  input_keys: ["PROPERTIES"]
+  output_keys: ["STATE"]
+  connection_radius: 0.3
+  ignore_n_initial_steps: 0
+  training_noise: ${training_noise}
+  training_noise_std: ${training_noise_std}
+  single_step: ${single_step}
+  visualizer:
+    plot_stress: True
+    plot_ground_truth: True
+    plot_force_vector: True
+    plot_elev: 30
+    plot_azim: -60
+    n_columns: 3
+    overlayed_ground_truth: False
+
+plot:
+  animation:
+    n_images: 6
+
+logger:
+  group: AbaqusPlateDeformation
+  job_type: mgn_m=${model.num_messages}
+  name: apd_mgn_seed=${seed}
+
+dataset:
+  root: /home/taihoang/datasets_new/stamp_forming_big_no_boundary_conn
+  window_size: 48
+  window_shift: 48
+  val_window_size: 48
+  val_window_shift: 48
+  train_n_sequences: null
+  val_n_sequences: null
+  shuffle: True
+  pin_memory: True
