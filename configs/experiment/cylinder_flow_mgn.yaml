@@ -58,7 +58,7 @@ logger:
   name: cf_mgn_seed=${seed}
 
 dataset:
-  root: /home/taihoang/datasets_new/cylinder_flow_origin
+  root: ./dataset_public/cylinder_flow
   window_size: 2
   window_shift: 1
   val_window_size: 31

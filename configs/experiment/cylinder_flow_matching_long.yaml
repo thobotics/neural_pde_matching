@@ -70,7 +70,7 @@ logger:
   name: cf_${model.dynamic_name}_seed=${seed}
 
 dataset:
-  root: /home/taihoang/datasets_new/cylinder_flow_origin
+  root: ./dataset_public/cylinder_flow
   window_size: 101
   window_shift: 100
   val_window_size: 101

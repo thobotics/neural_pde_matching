@@ -15,7 +15,7 @@ defaults:
   - _self_
 
 # Global configurations
-experiment_name: WaveFluid_Long_200
+experiment_name: WaveBalls_Long_200
 seed: 42
 lr: 5e-4
 epochs: 500  # default is 50
@@ -58,12 +58,12 @@ plot:
   plot_at_every_n_val_step: 5
 
 logger:
-  group: WaveFluid_200
+  group: WaveBalls_200
   job_type: mgn
   name: wf_mgn_seed=${seed}
 
 dataset:
-  root: /home/taihoang/datasets_new/wave_long_skip_200
+  root: ./dataset_public/wave_balls
   window_size: 2
   window_shift: 1
   val_window_size: 199

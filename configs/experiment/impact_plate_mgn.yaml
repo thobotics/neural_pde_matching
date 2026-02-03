@@ -57,8 +57,7 @@ logger:
   name: ip_mgn_seed=${seed}
 
 dataset:
-  root: /home/taihoang/datasets_new/impact_plate_norm_all_2
-  # root: /home/taihoang/datasets_new/impact_plate
+  root: ./dataset_public/impact_plate
   ignore_n_initial_steps: 0
   window_size: 2
   window_shift: 1

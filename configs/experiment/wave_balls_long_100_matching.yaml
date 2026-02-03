@@ -15,10 +15,10 @@ defaults:
   - _self_
 
 # Global configurations
-experiment_name: WaveFluid
+experiment_name: WaveBalls_Long
 seed: 42
 lr: 5e-4
-epochs: 3000  # default is 50
+epochs: 3000
 batch_size: 4
 num_workers: 4
 scheduler: null
@@ -31,9 +31,9 @@ rollout_val: False
 
 curriculum_training:
   enabled: True
-  end_epoch: 500  # 100
+  end_epoch: 1500
   start_timestep: 5
-  step_size: 1  # 100
+  step_size: 1
 
 trainer:
   check_val_every_n_epoch: 20
@@ -52,7 +52,7 @@ model:
     external_force_factor: 2.0
 
 env:
-  name: "WaveEnv"
+  name: "WaveLongEnv"
   input_keys: ["PROPERTIES", "STATE"]
   output_keys: ["STATE", "STATE_DOT"]
   ignore_n_initial_steps: 0
@@ -74,16 +74,16 @@ plot:
   plot_at_every_n_val_step: 5
 
 logger:
-  group: WaveFluid
+  group: WaveBalls_100
   job_type: ${model.dynamic_name}
   name: wf_${model.dynamic_name}_seed=${seed}
 
 dataset:
-  root: /home/taihoang/datasets_new/wave_long_skip
-  window_size: 50
-  window_shift: 50
-  val_window_size: 50
-  val_window_shift: 50
+  root: ./dataset_public/wave_balls
+  window_size: 99
+  window_shift: 99
+  val_window_size: 99
+  val_window_shift: 99
   train_n_sequences: null
   val_n_sequences: null
   shuffle: True

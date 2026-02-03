@@ -67,7 +67,7 @@ logger:
   name: apd_${model.dynamic_name}_seed=${seed}
 
 dataset:
-  root: /home/taihoang/datasets_new/stamp_forming_big_no_boundary_conn
+  root: ./dataset_public/plate_deformation
   window_size: 48
   window_shift: 48
   val_window_size: 48

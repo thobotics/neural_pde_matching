@@ -1,5 +1,4 @@
 # @package _global_
-# Abaqus Plate Deformation MGN experiment
 
 defaults:
   - /trainer: default
@@ -7,7 +6,7 @@ defaults:
   - /scheduler: step
   - /logger: wandb  # wandb or mlflow
   - /plot: wandb
-  - /model: mgn
+  - /model: pde_matching_igns
   - /callbacks: default
   - /cluster: local
   - override /hydra/job_logging: colorlog
@@ -15,29 +14,37 @@ defaults:
   - _self_
 
 # Global configurations
-experiment_name: CylinderFlow
+experiment_name: Kuramoto
 seed: 42
 lr: 5e-4
-epochs: 2000  # default is 50
-batch_size: 8
-num_workers: 16
+epochs: 3000  # default is 50
+batch_size: 4
+num_workers: 4
 scheduler: null
 debug: False
 training_noise: True
 training_noise_std: 1e-2
 val_per_steps: 10
 rollout_train: False
-rollout_val: True
+rollout_val: False
 
 trainer:
-  check_val_every_n_epoch: 5
+  check_val_every_n_epoch: 20
+  gradient_clip_val: 0.5
 
 model:
-  num_messages: 15
+  name: PDEMatching
+  warmup_steps: 10
+  stop_gradient_at_step: 0
+  use_relative_timestep: True
+  num_substeps: 1
+  dynamic_config:
+    num_enc_layers: 2
+    damping_factor: 1.0
 
 env:
-  name: "CylinderFlowLongEnv"
-  input_keys: ["PROPERTIES", "STATE", "STATE_DOT"]
+  name: "KuramotoEnv"
+  input_keys: ["PROPERTIES", "STATE"]
   output_keys: ["STATE", "STATE_DOT"]
   ignore_n_initial_steps: 0
   training_noise: ${training_noise}
@@ -45,25 +52,29 @@ env:
   visualizer:
     n_columns: 3
     overlayed_ground_truth: False
+    support_negative_density: True
+    plot_as_images: True
 
 plot:
   animation:
-    fps: 10
-    n_images: 6
+    fps: 5
     skip_frames: 5
+    n_images: 5
+
+  plot_at_every_n_val_step: 5
 
 logger:
-  group: CylinderFlow_100
-  job_type: mgn
-  name: cf_mgn_seed=${seed}
+  group: Kuramoto
+  job_type: ${model.dynamic_name}
+  name: ks_${model.dynamic_name}_seed=${seed}
 
 dataset:
-  root: ./dataset_public/cylinder_flow
-  window_size: 2
-  window_shift: 1
+  root: ./dataset_public/kuramoto_sivashinsky
+  window_size: 101
+  window_shift: 100
   val_window_size: 101
   val_window_shift: 100
-  train_n_sequences: 400
+  train_n_sequences: null
   val_n_sequences: null
   shuffle: True
   pin_memory: True

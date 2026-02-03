@@ -7,7 +7,7 @@ defaults:
   - /scheduler: step
   - /logger: wandb  # wandb or mlflow
   - /plot: wandb
-  - /model: mgn
+  - /model: pde_matching_igns
   - /callbacks: default
   - /cluster: local
   - override /hydra/job_logging: colorlog
@@ -15,28 +15,44 @@ defaults:
   - _self_
 
 # Global configurations
-experiment_name: WaveFluid
+experiment_name: WaveBalls_Long_200
 seed: 42
 lr: 5e-4
-epochs: 500  # default is 50
-batch_size: 16
-num_workers: 16
+epochs: 3000  # default is 50
+batch_size: 4
+num_workers: 4
 scheduler: null
 debug: False
-training_noise: True
+training_noise: False
 training_noise_std: 1e-2
 val_per_steps: 10
 rollout_train: False
-rollout_val: True
+rollout_val: False
+
+curriculum_training:
+  enabled: True
+  end_epoch: 1000
+  start_timestep: 5
+  step_size: 2
 
 trainer:
-  check_val_every_n_epoch: 10
+  check_val_every_n_epoch: 20
+  gradient_clip_val: 0.5
 
 model:
-  num_messages: 15
+  name: PDEMatching
+  warmup_steps: 0
+  stop_gradient_at_step: 0
+  use_relative_timestep: True
+  num_substeps: 1
+  loss_linear_weighting: False
+  dynamic_config:
+    num_enc_layers: 1
+    damping_factor: 0.0
+    external_force_factor: 2.0
 
 env:
-  name: "WaveEnv"
+  name: "WaveLong200Env"
   input_keys: ["PROPERTIES", "STATE"]
   output_keys: ["STATE", "STATE_DOT"]
   ignore_n_initial_steps: 0
@@ -55,17 +71,19 @@ plot:
     n_images: 3
     skip_frames: 5
 
+  plot_at_every_n_val_step: 5
+
 logger:
-  group: WaveFluid
-  job_type: mgn
-  name: wf_mgn_seed=${seed}
+  group: WaveBalls_200
+  job_type: ${model.dynamic_name}
+  name: wf_${model.dynamic_name}_seed=${seed}
 
 dataset:
-  root: /home/taihoang/datasets_new/wave_long_skip
-  window_size: 2
-  window_shift: 1
-  val_window_size: 50
-  val_window_shift: 50
+  root: ./dataset_public/wave_balls
+  window_size: 199
+  window_shift: 199
+  val_window_size: 199
+  val_window_shift: 199
   train_n_sequences: null
   val_n_sequences: null
   shuffle: True

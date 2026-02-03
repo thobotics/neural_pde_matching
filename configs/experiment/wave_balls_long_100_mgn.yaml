@@ -1,4 +1,5 @@
 # @package _global_
+# Abaqus Plate Deformation MGN experiment
 
 defaults:
   - /trainer: default
@@ -6,7 +7,7 @@ defaults:
   - /scheduler: step
   - /logger: wandb  # wandb or mlflow
   - /plot: wandb
-  - /model: pde_matching_igns
+  - /model: mgn
   - /callbacks: default
   - /cluster: local
   - override /hydra/job_logging: colorlog
@@ -14,54 +15,60 @@ defaults:
   - _self_
 
 # Global configurations
-experiment_name: ImpactPlate
+experiment_name: WaveBalls_Long
 seed: 42
 lr: 5e-4
-epochs: 2000  # default is 50
-batch_size: 4
-num_workers: 4
+epochs: 500
+batch_size: 16
+num_workers: 16
 scheduler: null
 debug: False
-training_noise: False
+training_noise: True
 training_noise_std: 1e-2
 val_per_steps: 10
 rollout_train: False
-rollout_val: False
+rollout_val: True
 
 trainer:
-  check_val_every_n_epoch: 20
-  gradient_clip_val: 0.5
+  check_val_every_n_epoch: 1
 
 model:
-  name: PDEMatching
-  warmup_steps: 15
+  num_messages: 15
 
 env:
-  name: "ImpactPlateNormEnv"
-  input_keys: ["PROPERTIES", "STATE", "STATE_DOT"]
+  name: "WaveLongEnv"
+  input_keys: ["PROPERTIES", "STATE"]
   output_keys: ["STATE", "STATE_DOT"]
   ignore_n_initial_steps: 0
   training_noise: ${training_noise}
   training_noise_std: ${training_noise_std}
   visualizer:
-    plot_stress: True
     n_columns: 3
     overlayed_ground_truth: False
-    stress_only: False
-    xy_min: [0.0, 0.0]
-    xy_max: [1.0, 2.0]
+    support_negative_density: True
+    plot_as_images: True
+    cmap: RdBu
+
+plot:
+  animation:
+    fps: 10
+    n_images: 3
+    skip_frames: 5
+
+  plot_at_every_n_val_step: 5
 
 logger:
-  group: ImpactPlate
-  job_type: ${model.dynamic_name}
-  name: ip_${model.dynamic_name}_seed=${seed}
+  # group: WaveBalls_200
+  group: WaveBalls_100_update
+  job_type: mgn
+  name: wf_mgn_seed=${seed}
 
 dataset:
-  root: /home/taihoang/datasets_new/impact_plate_norm_all_2
-  window_size: 51
-  window_shift: 51
-  val_window_size: 51
-  val_window_shift: 51
+  root: ./dataset_public/wave_balls
+  window_size: 2
+  window_shift: 1
+  val_window_size: 99
+  val_window_shift: 99
   train_n_sequences: null
   val_n_sequences: null
   shuffle: True

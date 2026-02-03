@@ -7,7 +7,7 @@ defaults:
   - /scheduler: step
   - /logger: wandb  # wandb or mlflow
   - /plot: wandb
-  - /model: pde_matching_igns
+  - /model: mgn
   - /callbacks: default
   - /cluster: local
   - override /hydra/job_logging: colorlog
@@ -15,44 +15,28 @@ defaults:
   - _self_
 
 # Global configurations
-experiment_name: WaveFluid_Long
+experiment_name: Kuramoto
 seed: 42
 lr: 5e-4
-epochs: 3000
-batch_size: 4
-num_workers: 4
+epochs: 500  # default is 50
+batch_size: 16
+num_workers: 16
 scheduler: null
 debug: False
-training_noise: False
+training_noise: True
 training_noise_std: 1e-2
 val_per_steps: 10
 rollout_train: False
-rollout_val: False
-
-curriculum_training:
-  enabled: True
-  end_epoch: 1500
-  start_timestep: 5
-  step_size: 1
+rollout_val: True
 
 trainer:
-  check_val_every_n_epoch: 20
-  gradient_clip_val: 0.5
+  check_val_every_n_epoch: 3
 
 model:
-  name: PDEMatching
-  warmup_steps: 0
-  stop_gradient_at_step: 0
-  use_relative_timestep: True
-  num_substeps: 1
-  loss_linear_weighting: False
-  dynamic_config:
-    num_enc_layers: 1
-    damping_factor: 0.0
-    external_force_factor: 2.0
+  num_messages: 15
 
 env:
-  name: "WaveLongEnv"
+  name: "KuramotoEnv"
   input_keys: ["PROPERTIES", "STATE"]
   output_keys: ["STATE", "STATE_DOT"]
   ignore_n_initial_steps: 0
@@ -63,27 +47,24 @@ env:
     overlayed_ground_truth: False
     support_negative_density: True
     plot_as_images: True
-    cmap: RdBu
 
 plot:
   animation:
-    fps: 10
-    n_images: 3
+    fps: 5
     skip_frames: 5
-
-  plot_at_every_n_val_step: 5
+    n_images: 5
 
 logger:
-  group: WaveFluid_100
-  job_type: ${model.dynamic_name}
-  name: wf_${model.dynamic_name}_seed=${seed}
+  group: Kuramoto
+  job_type: mgn_m=${model.num_messages}
+  name: ks_mgn_seed=${seed}
 
 dataset:
-  root: /home/taihoang/datasets_new/wave_long_skip
-  window_size: 99
-  window_shift: 99
-  val_window_size: 99
-  val_window_shift: 99
+  root: ./dataset_public/kuramoto_sivashinsky
+  window_size: 2
+  window_shift: 1
+  val_window_size: 101
+  val_window_shift: 100
   train_n_sequences: null
   val_n_sequences: null
   shuffle: True

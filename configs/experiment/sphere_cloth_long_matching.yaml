@@ -64,7 +64,7 @@ logger:
   name: scc_${model.dynamic_name}_seed=${seed}
 
 dataset:
-  root: /home/taihoang/datasets_new/sphere_cloth_coupling_v3
+  root: ./dataset_public/sphere_cloth
   window_size: 99
   window_shift: 99
   val_window_size: 99
