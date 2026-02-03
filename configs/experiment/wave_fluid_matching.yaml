@@ -1,0 +1,90 @@
+# @package _global_
+# Abaqus Plate Deformation MGN experiment
+
+defaults:
+  - /trainer: default
+  - /optimizer: adam
+  - /scheduler: step
+  - /logger: wandb  # wandb or mlflow
+  - /plot: wandb
+  - /model: pde_matching_igns
+  - /callbacks: default
+  - /cluster: local
+  - override /hydra/job_logging: colorlog
+  - override /hydra/hydra_logging: colorlog
+  - _self_
+
+# Global configurations
+experiment_name: WaveFluid
+seed: 42
+lr: 5e-4
+epochs: 3000  # default is 50
+batch_size: 4
+num_workers: 4
+scheduler: null
+debug: False
+training_noise: False
+training_noise_std: 1e-2
+val_per_steps: 10
+rollout_train: False
+rollout_val: False
+
+curriculum_training:
+  enabled: True
+  end_epoch: 500  # 100
+  start_timestep: 5
+  step_size: 1  # 100
+
+trainer:
+  check_val_every_n_epoch: 20
+  gradient_clip_val: 0.5
+
+model:
+  name: PDEMatching
+  warmup_steps: 0
+  stop_gradient_at_step: 0
+  use_relative_timestep: True
+  num_substeps: 1
+  loss_linear_weighting: False
+  dynamic_config:
+    num_enc_layers: 1
+    damping_factor: 0.0
+    external_force_factor: 2.0
+
+env:
+  name: "WaveEnv"
+  input_keys: ["PROPERTIES", "STATE"]
+  output_keys: ["STATE", "STATE_DOT"]
+  ignore_n_initial_steps: 0
+  training_noise: ${training_noise}
+  training_noise_std: ${training_noise_std}
+  visualizer:
+    n_columns: 3
+    overlayed_ground_truth: False
+    support_negative_density: True
+    plot_as_images: True
+    cmap: RdBu
+
+plot:
+  animation:
+    fps: 10
+    n_images: 3
+    skip_frames: 5
+
+  plot_at_every_n_val_step: 5
+
+logger:
+  group: WaveFluid
+  job_type: ${model.dynamic_name}
+  name: wf_${model.dynamic_name}_seed=${seed}
+
+dataset:
+  root: /home/taihoang/datasets_new/wave_long_skip
+  window_size: 50
+  window_shift: 50
+  val_window_size: 50
+  val_window_shift: 50
+  train_n_sequences: null
+  val_n_sequences: null
+  shuffle: True
+  pin_memory: True
