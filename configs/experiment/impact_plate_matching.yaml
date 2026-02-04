@@ -4,11 +4,13 @@ defaults:
   - /trainer: default
   - /optimizer: adam
   - /scheduler: step
-  - /logger: wandb  # wandb or mlflow
+  - /logger: wandb
   - /plot: wandb
   - /model: pde_matching_igns
   - /callbacks: default
   - /cluster: local
+  - /env: impact_plate
+  - /dataset: impact_plate
   - override /hydra/job_logging: colorlog
   - override /hydra/hydra_logging: colorlog
   - _self_
@@ -17,7 +19,7 @@ defaults:
 experiment_name: ImpactPlate
 seed: 42
 lr: 5e-4
-epochs: 2000  # default is 50
+epochs: 2000
 batch_size: 4
 num_workers: 4
 scheduler: null
@@ -33,36 +35,9 @@ trainer:
   gradient_clip_val: 0.5
 
 model:
-  name: PDEMatching
   warmup_steps: 15
-
-env:
-  name: "ImpactPlateNormEnv"
-  input_keys: ["PROPERTIES", "STATE", "STATE_DOT"]
-  output_keys: ["STATE", "STATE_DOT"]
-  ignore_n_initial_steps: 0
-  training_noise: ${training_noise}
-  training_noise_std: ${training_noise_std}
-  visualizer:
-    plot_stress: True
-    n_columns: 3
-    overlayed_ground_truth: False
-    stress_only: False
-    xy_min: [0.0, 0.0]
-    xy_max: [1.0, 2.0]
 
 logger:
   group: ImpactPlate
   job_type: ${model.dynamic_name}
   name: ip_${model.dynamic_name}_seed=${seed}
-
-dataset:
-  root: ./dataset_public/impact_plate
-  window_size: 51
-  window_shift: 51
-  val_window_size: 51
-  val_window_shift: 51
-  train_n_sequences: null
-  val_n_sequences: null
-  shuffle: True
-  pin_memory: True

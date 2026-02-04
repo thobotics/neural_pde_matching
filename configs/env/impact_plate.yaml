@@ -1,0 +1,16 @@
+# @package env
+# ImpactPlate environment configuration
+
+name: "ImpactPlateNormEnv"
+input_keys: ["PROPERTIES", "STATE", "STATE_DOT"]
+output_keys: ["STATE", "STATE_DOT"]
+ignore_n_initial_steps: 0
+training_noise: ${training_noise}
+training_noise_std: ${training_noise_std}
+visualizer:
+  plot_stress: True
+  n_columns: 3
+  overlayed_ground_truth: False
+  stress_only: False
+  xy_min: [0.0, 0.0]
+  xy_max: [1.0, 2.0]

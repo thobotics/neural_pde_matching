@@ -1,0 +1,12 @@
+# @package dataset
+# Kuramoto dataset configuration
+
+root: ./dataset_public/kuramoto_sivashinsky
+window_size: 101
+window_shift: 100
+val_window_size: 101
+val_window_shift: 100
+train_n_sequences: null
+val_n_sequences: null
+shuffle: True
+pin_memory: True

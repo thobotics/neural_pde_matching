@@ -1,6 +1,7 @@
 # @package dataset
-# Default dataset configuration
+# AbaqusPlateDeformation dataset configuration
 
+root: ./dataset_public/plate_deformation 
 window_size: 40
 window_shift: 1
 val_window_size: 40

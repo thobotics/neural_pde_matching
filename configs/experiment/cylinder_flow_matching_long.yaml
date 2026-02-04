@@ -4,11 +4,13 @@ defaults:
   - /trainer: default
   - /optimizer: adam
   - /scheduler: step
-  - /logger: wandb  # wandb or mlflow
+  - /logger: wandb
   - /plot: wandb
   - /model: pde_matching_igns
   - /callbacks: default
   - /cluster: local
+  - /env: cylinder_flow
+  - /dataset: cylinder_flow
   - override /hydra/job_logging: colorlog
   - override /hydra/hydra_logging: colorlog
   - _self_
@@ -32,7 +34,6 @@ trainer:
   check_val_every_n_epoch: 20
 
 model:
-  name: PDEMatching
   warmup_steps: 0
   stop_gradient_at_step: 0
   use_relative_timestep: False
@@ -41,27 +42,18 @@ model:
     num_enc_layers: 2
     damping_factor: 1.0
     external_force_factor: 0.5
-
     ext_force_kwargs:
       aggr: AttentionalAggregation
 
+# Long variant
 env:
   name: "CylinderFlowLongEnv"
-  input_keys: ["PROPERTIES", "STATE", "STATE_DOT"]
-  output_keys: ["STATE", "STATE_DOT"]
-  ignore_n_initial_steps: 0
-  training_noise: ${training_noise}
-  training_noise_std: ${training_noise_std}
-  visualizer:
-    n_columns: 3
-    overlayed_ground_truth: False
 
 plot:
   animation:
     fps: 10
     n_images: 6
     skip_frames: 5
-
   plot_at_every_n_val_step: 5
 
 logger:
@@ -69,13 +61,10 @@ logger:
   job_type: ${model.dynamic_name}
   name: cf_${model.dynamic_name}_seed=${seed}
 
+# Long variant dataset
 dataset:
-  root: ./dataset_public/cylinder_flow
   window_size: 101
   window_shift: 100
   val_window_size: 101
   val_window_shift: 100
   train_n_sequences: 400
-  val_n_sequences: null
-  shuffle: True
-  pin_memory: True

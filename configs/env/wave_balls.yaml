@@ -1,0 +1,15 @@
+# @package env
+# WaveBalls environment configuration
+
+name: "WaveEnv"
+input_keys: ["PROPERTIES", "STATE"]
+output_keys: ["STATE", "STATE_DOT"]
+ignore_n_initial_steps: 0
+training_noise: ${training_noise}
+training_noise_std: ${training_noise_std}
+visualizer:
+  n_columns: 3
+  overlayed_ground_truth: False
+  support_negative_density: True
+  plot_as_images: True
+  cmap: RdBu

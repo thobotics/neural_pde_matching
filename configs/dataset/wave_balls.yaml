@@ -1,0 +1,12 @@
+# @package dataset
+# WaveBalls dataset configuration
+
+root: ./dataset_public/wave_balls
+window_size: 51
+window_shift: 50
+val_window_size: 51
+val_window_shift: 50
+train_n_sequences: null
+val_n_sequences: null
+shuffle: True
+pin_memory: True

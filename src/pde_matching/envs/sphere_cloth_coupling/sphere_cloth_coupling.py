@@ -54,13 +54,14 @@ class SphereClothCouplingEnv(TrajectoryDatasetMixin, Env):
         training_noise: bool = False,
         training_noise_std: float = 0.0,
         standardize_by_trajectory: bool = False,
-        connection_radius: float = 0.3,
         mesh_type: str = "triangular",
+        sparse_connections: bool = False,
         **kwargs,
     ):
         self._max_velocity = 10.0
         self._max_position = 10.0
         self._mesh_type = mesh_type
+        self._sparse_connections = sparse_connections
 
         transform = Compose(
             [
@@ -335,11 +336,12 @@ class SphereClothCouplingEnv(TrajectoryDatasetMixin, Env):
                             """Subsample cloth nodes uniformly across the entire grid"""
                             selected = set()
                             
-                            # Sample every subsample_factor nodes in both dimensions
-                            # for i in range(0, n_rows, subsample_factor):
-                            #     for j in range(0, n_cols, subsample_factor):
-                            #         node_idx = i * n_cols + j
-                            #         selected.add(node_idx)
+                            if not self._sparse_connections:
+                                # Sample every subsample_factor nodes in both dimensions
+                                for i in range(0, n_rows, subsample_factor):
+                                    for j in range(0, n_cols, subsample_factor):
+                                        node_idx = i * n_cols + j
+                                        selected.add(node_idx)
                             
                             # Always include 4 corners
                             corners = [0, n_cols-1, (n_rows-1)*n_cols, n_rows*n_cols-1]

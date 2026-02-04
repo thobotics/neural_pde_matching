@@ -1,0 +1,12 @@
+# @package dataset
+# CylinderFlow dataset configuration
+
+root: ./dataset_public/cylinder_flow
+window_size: 31
+window_shift: 30
+val_window_size: 31
+val_window_shift: 30
+train_n_sequences: 200
+val_n_sequences: null
+shuffle: True
+pin_memory: True

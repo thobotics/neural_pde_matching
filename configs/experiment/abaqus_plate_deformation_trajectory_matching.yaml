@@ -4,11 +4,13 @@ defaults:
   - /trainer: default
   - /optimizer: adam
   - /scheduler: step
-  - /logger: wandb  # wandb or mlflow
+  - /logger: wandb
   - /plot: wandb
   - /model: pde_matching_igns
   - /callbacks: default
   - /cluster: local
+  - /env: abaqus_plate_deformation
+  - /dataset: abaqus_plate_deformation
   - override /hydra/job_logging: colorlog
   - override /hydra/hydra_logging: colorlog
   - _self_
@@ -18,7 +20,7 @@ experiment_name: AbaqusPlateDeformation
 single_step: False
 seed: 42
 lr: 5e-4
-epochs: 5000  # default is 50
+epochs: 5000
 batch_size: 8
 num_workers: 4
 scheduler: null
@@ -34,27 +36,13 @@ trainer:
   gradient_clip_val: 0.5
 
 model:
-  name: PDEMatching
   warmup_steps: 50
   dynamic_config:
     final_state: pq
 
+# Trajectory matching uses different output keys
 env:
-  name: "AbaqusPlateDeformationEnv"
-  input_keys: ["PROPERTIES"]
   output_keys: ["STATE", "STATE_DOT"]
-  connection_radius: 0.3
-  ignore_n_initial_steps: 0
-  training_noise: ${training_noise}
-  training_noise_std: ${training_noise_std}
-  visualizer:
-    plot_stress: True
-    plot_ground_truth: True
-    plot_force_vector: True
-    plot_elev: 30
-    plot_azim: -60
-    n_columns: 3
-    overlayed_ground_truth: False
 
 plot:
   animation:
@@ -68,12 +56,7 @@ logger:
   name: apd_${model.dynamic_name}_seed=${seed}
 
 dataset:
-  root: ./dataset_public/plate_deformation
   window_size: 48
   window_shift: 48
   val_window_size: 48
   val_window_shift: 48
-  train_n_sequences: null
-  val_n_sequences: null
-  shuffle: True
-  pin_memory: True

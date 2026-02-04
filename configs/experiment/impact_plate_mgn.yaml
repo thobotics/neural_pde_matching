@@ -1,15 +1,16 @@
 # @package _global_
-# Impact Plate MGN experiment
 
 defaults:
   - /trainer: default
   - /optimizer: adam
   - /scheduler: step
-  - /logger: wandb  # wandb or mlflow
+  - /logger: wandb
   - /plot: wandb
   - /model: mgn
   - /callbacks: default
   - /cluster: local
+  - /env: impact_plate
+  - /dataset: impact_plate
   - override /hydra/job_logging: colorlog
   - override /hydra/hydra_logging: colorlog
   - _self_
@@ -18,8 +19,7 @@ defaults:
 experiment_name: ImpactPlate
 seed: 42
 lr: 5e-4
-epochs: 500  # default is 50
-# batch_size: 8
+epochs: 500
 batch_size: 4
 num_workers: 16
 scheduler: null
@@ -36,18 +36,11 @@ trainer:
 model:
   num_messages: 15
 
+# MGN uses different env name and input keys
 env:
   name: "ImpactPlateEnv"
   input_keys: ["PROPERTIES", "STATE_DOT"]
-  output_keys: ["STATE", "STATE_DOT"]
-  ignore_n_initial_steps: 0
-  training_noise: ${training_noise}
-  training_noise_std: ${training_noise_std}
   visualizer:
-    plot_stress: True
-    n_columns: 3
-    overlayed_ground_truth: False
-    stress_only: False
     xy_min: [0.0, 0.0]
     xy_max: [10.0, 20.0]
 
@@ -56,14 +49,7 @@ logger:
   job_type: mgn_m=${model.num_messages}
   name: ip_mgn_seed=${seed}
 
+# MGN uses different window size
 dataset:
-  root: ./dataset_public/impact_plate
-  ignore_n_initial_steps: 0
   window_size: 2
   window_shift: 1
-  val_window_size: 51
-  val_window_shift: 51
-  train_n_sequences: null
-  val_n_sequences: null
-  shuffle: True
-  pin_memory: True

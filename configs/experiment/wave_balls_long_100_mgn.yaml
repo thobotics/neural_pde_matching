@@ -1,15 +1,16 @@
 # @package _global_
-# Abaqus Plate Deformation MGN experiment
 
 defaults:
   - /trainer: default
   - /optimizer: adam
   - /scheduler: step
-  - /logger: wandb  # wandb or mlflow
+  - /logger: wandb
   - /plot: wandb
   - /model: mgn
   - /callbacks: default
   - /cluster: local
+  - /env: wave_balls
+  - /dataset: wave_balls
   - override /hydra/job_logging: colorlog
   - override /hydra/hydra_logging: colorlog
   - _self_
@@ -35,41 +36,25 @@ trainer:
 model:
   num_messages: 15
 
+# Long variant
 env:
   name: "WaveLongEnv"
-  input_keys: ["PROPERTIES", "STATE"]
-  output_keys: ["STATE", "STATE_DOT"]
-  ignore_n_initial_steps: 0
-  training_noise: ${training_noise}
-  training_noise_std: ${training_noise_std}
-  visualizer:
-    n_columns: 3
-    overlayed_ground_truth: False
-    support_negative_density: True
-    plot_as_images: True
-    cmap: RdBu
 
 plot:
   animation:
     fps: 10
     n_images: 3
     skip_frames: 5
-
   plot_at_every_n_val_step: 5
 
 logger:
-  # group: WaveBalls_200
   group: WaveBalls_100_update
   job_type: mgn
   name: wf_mgn_seed=${seed}
 
+# MGN with long variant
 dataset:
-  root: ./dataset_public/wave_balls
   window_size: 2
   window_shift: 1
   val_window_size: 99
   val_window_shift: 99
-  train_n_sequences: null
-  val_n_sequences: null
-  shuffle: True
-  pin_memory: True

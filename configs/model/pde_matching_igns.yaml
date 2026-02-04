@@ -29,4 +29,4 @@ model:
     external_force_factor: 0.5
     using_symplectic_integrator: False
     ext_force_kwargs:
-      aggr: add  # options: add, mean, max, AttentionalAggregation
+      aggr: AttentionalAggregation  # options: add, mean, max, AttentionalAggregation

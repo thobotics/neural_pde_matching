@@ -1,0 +1,18 @@
+# @package env
+# AbaqusPlateDeformation environment configuration
+
+name: "AbaqusPlateDeformationEnv"
+input_keys: ["PROPERTIES"]
+output_keys: ["STATE"]
+connection_radius: 0.3
+ignore_n_initial_steps: 0
+training_noise: ${training_noise}
+training_noise_std: ${training_noise_std}
+visualizer:
+  plot_stress: True
+  plot_ground_truth: True
+  plot_force_vector: True
+  plot_elev: 30
+  plot_azim: -60
+  n_columns: 3
+  overlayed_ground_truth: False

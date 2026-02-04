@@ -1,0 +1,12 @@
+# @package env
+# CylinderFlow environment configuration
+
+name: "CylinderFlowEnv"
+input_keys: ["PROPERTIES", "STATE", "STATE_DOT"]
+output_keys: ["STATE", "STATE_DOT"]
+ignore_n_initial_steps: 0
+training_noise: ${training_noise}
+training_noise_std: ${training_noise_std}
+visualizer:
+  n_columns: 3
+  overlayed_ground_truth: False

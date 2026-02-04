@@ -1,15 +1,16 @@
 # @package _global_
-# Abaqus Plate Deformation MGN experiment
 
 defaults:
   - /trainer: default
   - /optimizer: adam
   - /scheduler: step
-  - /logger: wandb  # wandb or mlflow
+  - /logger: wandb
   - /plot: wandb
   - /model: mgn
   - /callbacks: default
   - /cluster: local
+  - /env: kuramoto
+  - /dataset: kuramoto
   - override /hydra/job_logging: colorlog
   - override /hydra/hydra_logging: colorlog
   - _self_
@@ -18,7 +19,7 @@ defaults:
 experiment_name: Kuramoto
 seed: 42
 lr: 5e-4
-epochs: 500  # default is 50
+epochs: 500
 batch_size: 16
 num_workers: 16
 scheduler: null
@@ -35,19 +36,6 @@ trainer:
 model:
   num_messages: 15
 
-env:
-  name: "KuramotoEnv"
-  input_keys: ["PROPERTIES", "STATE"]
-  output_keys: ["STATE", "STATE_DOT"]
-  ignore_n_initial_steps: 0
-  training_noise: ${training_noise}
-  training_noise_std: ${training_noise_std}
-  visualizer:
-    n_columns: 3
-    overlayed_ground_truth: False
-    support_negative_density: True
-    plot_as_images: True
-
 plot:
   animation:
     fps: 5
@@ -59,13 +47,7 @@ logger:
   job_type: mgn_m=${model.num_messages}
   name: ks_mgn_seed=${seed}
 
+# MGN uses different window size
 dataset:
-  root: ./dataset_public/kuramoto_sivashinsky
   window_size: 2
   window_shift: 1
-  val_window_size: 101
-  val_window_shift: 100
-  train_n_sequences: null
-  val_n_sequences: null
-  shuffle: True
-  pin_memory: True
