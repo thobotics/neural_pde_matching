@@ -58,7 +58,6 @@ plot:
   plot_at_every_n_val_step: 5
 
 logger:
-  # group: SphereCloth_100_update
   group: SphereCloth_100
   job_type: ${model.dynamic_name}
   name: scc_${model.dynamic_name}_seed=${seed}

@@ -3,27 +3,35 @@
 ## Quick Start
 
 ### Prerequisites
-- Python 3.10
-- [uv](https://docs.astral.sh/uv/) (recommended)
+- Python 3.10.13
+- [uv](https://docs.astral.sh/uv/)
 
 ### Installation
 
 ```bash
 # Create virtual environment and install dependencies
 uv venv --python 3.10.13
-
-# Activate environment
 source .venv/bin/activate
-
-# Install
 uv sync
 ```
 
-### Verify Setup
-After installation, test that everything works:
-```bash
+### Dataset Setup
 
-# Quick training test (optional)
+Download and extract datasets to `./dataset_public/`:
+
+**Main dataset:** [Zenodo](https://zenodo.org/records/18480131) - Plate Deformation, Sphere Cloth, Wave Balls, and Kuramoto-Sivashinsky  
+- Extract to: `./dataset_public/`
+
+**Impact plate (optional):** [HCMT](https://github.com/yuyudeep/hcmt)
+- Extract raw data to: `./dataset_public/impact_plate/raw/`
+
+**Cylinder flow (optional):** [MeshGraphNets](https://github.com/google-deepmind/deepmind-research/tree/master/meshgraphnets)
+- Extract raw data to: `./dataset_public/cylinder_flow/raw/`
+
+### Verify Setup
+
+```bash
+# Quick training test
 python main.py -cn experiment/abaqus_plate_deformation_matching trainer.max_epochs=1 dataset.train_n_sequences=5
 ```
 
