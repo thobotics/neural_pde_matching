@@ -263,7 +263,8 @@
         </p>
         <div class="has-text-centered" style="margin: 2rem 0; padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
           $$
-          \dot{\mathbf{x}}_i = \mathbf{J}\nabla_{\mathbf{x}_i} H_\theta(t, \mathbf{X}) - \begin{bmatrix}0\\ \mathbf{D}_\theta \nabla_{\mathbf{p}_i} H_\theta\end{bmatrix} + \begin{bmatrix}0\\ \mathbf{r}_\theta(t, \mathbf{X})\end{bmatrix}
+          \dot{\mathbf{x}}_i = \mathbf{J}\nabla_{\mathbf{x}_i} H_\theta(t, \mathbf{X}) - \begin{bmatrix}0\\ \mathbf{D}_\theta \nabla_{\mathbf{p}_i} H_\theta(t, \mathbf{X})\end{bmatrix} + \begin{bmatrix}0\\ \mathbf{r}_\theta(t, \mathbf{X})\end{bmatrix}, \quad
+   \mathbf{J}=\begin{bmatrix}0&\mathbf{I}\\ - \mathbf{I}&0\end{bmatrix}.
           $$
         </div>
         <p style="margin-bottom: 1rem;" style="margin-bottom: 1rem;">
@@ -275,7 +276,7 @@
           $$
         </div>
         <p style="margin-bottom: 1rem;">
-          where $\tilde{\sigma}$ is an anti-derivative of a non-linear activation, $\mathbf{1}_d$ is a row vector of ones, and $\mathbf{W}(t)$, $\mathbf{V}(t)$ are block diagonal matrices that ensure separation into the $\mathbf{q}$ and $\mathbf{p}$ components.
+          where $\tilde{\sigma}$ is an anti-derivative of a non-linear activation, $\mathbf{1}_d$ is a row vector of ones, and $\mathbf{W}(t)$, $\mathbf{V}(t)$ are block diagonal learnable weighted matrices that ensure separation into the $\mathbf{q}$ and $\mathbf{p}$ components.
         </p>
 
         <h3 class="title is-4" style="margin-top: 3rem; margin-bottom: 1.5rem; padding-top: 2rem; border-top: 1px solid #e0e0e0;">Warmup Phase</h3>
