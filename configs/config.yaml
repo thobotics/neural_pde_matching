@@ -1,27 +1,62 @@
 # @package _global_
-# Main configuration file using new structured approach
 
 defaults:
-  - common/defaults
-  - common/hydra
-  - trainer: default
-  - optimizer: adam
-  - scheduler: step
-  - logger: mlflow
-  - plot: mlflow
-  - model: mgn
-  - env: abaqus_plate_deformation
-  - dataset: abaqus_plate_deformation
-  - callbacks: default
-  - override hydra/job_logging: colorlog
-  - override hydra/hydra_logging: colorlog
+  - /trainer: default
+  - /optimizer: adam
+  - /scheduler: step
+  - /logger: wandb
+  - /plot: wandb
+  - /model: pde_matching_igns
+  - /callbacks: default
+  - /cluster: local
+  - /env: abaqus_plate_deformation
+  - /dataset: abaqus_plate_deformation
+  - override /hydra/job_logging: colorlog
+  - override /hydra/hydra_logging: colorlog
   - _self_
 
-# Experiment-specific overrides
-experiment_name: ContinuousMeshGraphNets
-epochs: 500
-batch_size: 32
-val_per_steps: 5
-rollout_train: false
-rollout_val: false
+# Global configurations
+experiment_name: AbaqusPlateDeformation
+single_step: False
+seed: 42
+lr: 5e-4
+epochs: 5000
+batch_size: 8
+num_workers: 4
 scheduler: null
+debug: False
+training_noise: False
+training_noise_std: 1e-2
+val_per_steps: 10
+rollout_train: False
+rollout_val: False
+
+trainer:
+  check_val_every_n_epoch: 50
+  gradient_clip_val: 0.5
+
+model:
+  warmup_steps: 50
+  dynamic_config:
+    final_state: pq
+
+# Trajectory matching uses different output keys
+env:
+  output_keys: ["STATE", "STATE_DOT"]
+
+plot:
+  animation:
+    fps: 10
+    skip_frames: 3
+    n_images: 6
+
+logger:
+  group: AbaqusPlateDeformation
+  job_type: ${model.dynamic_name}
+  name: apd_${model.dynamic_name}_seed=${seed}
+
+dataset:
+  window_size: 48
+  window_shift: 48
+  val_window_size: 48
+  val_window_shift: 48

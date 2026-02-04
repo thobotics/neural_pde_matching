@@ -52,8 +52,11 @@ logger:
   job_type: mgn_m=${model.num_messages}
   name: apd_mgn_seed=${seed}
 
+
+# Note: for single-step, we need the final step
+# so window size = episode length
 dataset:
-  window_size: 2
-  window_shift: 1
-  val_window_size: 2
-  val_window_shift: 1
+  window_size: 48
+  window_shift: 48
+  val_window_size: 48
+  val_window_shift: 48
