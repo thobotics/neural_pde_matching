@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Information-Guided Neural Simulator">
+  <meta name="keywords" content="Graph Neural Networks, Neural Simulators, Hamiltonian Dynamics, PDEs">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IGNS: Information-Guided Neural Simulator</title>
+
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="./static/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./static/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./static/images/favicon-16x16.png">
+  <link rel="manifest" href="./static/images/site.webmanifest">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <style>
+    .task-card {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      height: 100%;
+      border: 2px solid #e0e0e0;
+    }
+    
+    .task-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      border-color: #3273dc;
+    }
+    
+    .task-card.active {
+      border-color: #3273dc;
+      background: #f8f9fa;
+    }
+    
+    .task-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #363636;
+      text-align: center;
+    }
+    
+    .task-preview {
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .task-preview img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    
+    .demo-display {
+      display: none;
+      margin-top: 3rem;
+      padding: 2rem;
+      background: #f8f9fa;
+      border-radius: 10px;
+      text-align: center;
+    }
+    
+    .demo-display.active {
+      display: block;
+    }
+    
+    .demo-display img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    .demo-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #363636;
+    }
+    
+    .demo-desc {
+      font-size: 1rem;
+      color: #666;
+      font-style: italic;
+      margin-top: 1rem;
+    }
+
+    figcaption {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .publication-links .button {
+      transition: all 0.3s ease;
+    }
+    
+    .publication-links .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      background-color: #3273dc !important;
+      border-color: #3273dc !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Improving Long-Range Interactions in Graph Neural Simulators via Hamiltonian Dynamics</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://thobotics.github.io/">Tai Hoang</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="https://alexthirty.github.io/">Alessandro Trenta</a><sup>*,2</sup>,</span>
+              <span class="author-block">
+                <a href="https://pages.di.unipi.it/gravina/">Alessio Gravina</a><sup>*,2</sup>,</span>
+              </br>
+              <span class="author-block">
+                <a href="https://nfreymuth.com/">Niklas Freymuth</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="https://pbecker93.github.io/">Philipp Becker</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="https://pages.di.unipi.it/bacciu/">Davide Bacciu</a><sup>2</sup>,</span>
+              <span class="author-block">
+                <a href="https://alr.iar.kit.edu/21_65.php">Gerhard Neumann</a><sup>1</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Karlsruhe Institute of Technology (KIT)</span>
+                <br>
+              <span class="author-block"><sup>2</sup>University of Pisa</span>
+            </div>
+            <div class="is-size-6 publication-authors" style="margin-top: 0.5em;">
+              <span class="author-block"><sup>*</sup>Equal contribution</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="https://openreview.net/forum?id=x66u6TEDUw" 
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://github.com/thobotics/pde_matching"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://zenodo.org/records/18480131"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-database"></i>
+                    </span>
+                    <span>Dataset</span>
+                  </a>
+                </span>
+              </div>
+              This paper was published at <a href="https://iclr.cc/Conferences/2026"> ICLR 2026 </a>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <img src="./assets/method.png" alt="Method Overview" style="width: 100%; border-radius: 10px;">
+      <figcaption>
+        <strong>Figure 1.</strong> A high-level overview of IGNS. The model performs an $l$-step warmup phase to incorporate broader spatial context, then evolves according to port-Hamiltonian dynamics with multi-step supervision for stable and accurate long-horizon simulations.
+      </figcaption>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Learning to simulate complex physical systems from data has emerged as a promising way to overcome the limitations of traditional numerical solvers, which often require prohibitive computational costs for high-fidelity solutions. 
+              Recent Graph Neural Simulators (GNSs) accelerate simulations by learning dynamics on graph-structured data, yet often struggle to capture long-range interactions and suffer from error accumulation under autoregressive rollouts. 
+            </p>
+            <p>
+              To address these challenges, we propose <strong> Information-preserving Graph Neural Simulator (IGNS) </strong>, a graph-based neural simulator built on the principles of Hamiltonian dynamics. 
+              This structure guarantees preservation of information across the graph, while extending to port-Hamiltonian systems allows the model to capture a broader class of dynamics, including non-conservative effects. 
+              IGNS further incorporates a warmup phase to initialize global context, geometric encoding to handle irregular meshes, and a multi-step training objective that facilitates PDE matching, where the trajectory produced by integrating the port-Hamiltonian core aligns with the ground-truth trajectory, thereby reducing rollout error. 
+            </p>
+            <p>
+              To evaluate these properties systematically, we introduce new benchmarks that target long-range dependencies and challenging external forcing scenarios. 
+              Across all tasks, IGNS consistently outperforms state-of-the-art GNSs, achieving higher accuracy and stability under challenging and complex dynamical systems.             </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Method</h2>
+      <div class="content has-text-justified">
+        <p>
+          IGNS builds on four key components: <strong>(i) Port-Hamiltonian formalism</strong> to capture energy-conserving and non-conservative behavior, <strong>(ii) Warmup phase</strong> to establish global context, <strong>(iii) Geometric encoding</strong> for irregular meshes, and <strong>(iv) Multi-step objective</strong> to reduce error accumulation.
+        </p>
+        
+        <h3 class="title is-4">Port-Hamiltonian Dynamics</h3>
+        <p>
+          We parameterize the Hamiltonian $H_\theta(t, \mathbf{X})$ and evolve the joint state according to:
+        </p>
+        <div class="has-text-centered" style="margin: 1.5em 0;">
+          $$
+          \dot{\mathbf{x}}_i = \mathbf{J}\nabla_{\mathbf{x}_i} H_\theta(t, \mathbf{X}) - \begin{bmatrix}0\\ \mathbf{D}_\theta \nabla_{\mathbf{p}_i} H_\theta\end{bmatrix} + \begin{bmatrix}0\\ \mathbf{r}_\theta(t, \mathbf{X})\end{bmatrix}
+          $$
+        </div>
+        <p>
+          where $\mathbf{x}_i=[\mathbf{q};\mathbf{p}]^T_i$ represents generalized coordinates and momenta, and $\mathbf{J}$ encodes the symplectic structure. The damping and forcing terms enable modeling of non-conservative systems while maintaining the energy-preserving structure. We parameterize the Hamiltonian as:
+        </p>
+        <div class="has-text-centered" style="margin: 1.5em 0;">
+          $$
+          H_\theta(t, \mathbf{X}) = \sum_{i \in \mathcal{V}} \tilde{\sigma} \left( \mathbf{W}(t) \mathbf{x}_i + \sum_{j \in \mathcal{N}_i} \mathbf{V}(t) \mathbf{x}_{j} \right)^T \cdot \mathbf{1}_d
+          $$
+        </div>
+        <p>
+          where $\tilde{\sigma}$ is an anti-derivative of a non-linear activation, $\mathbf{1}_d$ is a row vector of ones, and $\mathbf{W}(t)$, $\mathbf{V}(t)$ are block diagonal matrices that ensure separation into the $\mathbf{q}$ and $\mathbf{p}$ components.
+        </p>
+
+        <h3 class="title is-4">Warmup Phase</h3>
+        <p>
+          To capture long-range interactions from the start, we perform $l$ rounds of message passing without advancing time. This broadcasts information across the graph up to radius $l$ from each node, providing global context that is preserved throughout the rollout thanks to the energy-conserving core.
+        </p>
+
+        <h3 class="title is-4">Geometric Encoding</h3>
+        <p>
+          We embed geometric features directly into edge attributes to capture spatial structure on irregular meshes. Each edge feature encodes displacement vectors ($\mathbf{s}_{ij}=\text{pos}_j - \text{pos}_i$) and distances ($d_{ij}=\|\text{pos}_j - \text{pos}_i\|_2$), enabling the model to leverage mesh geometry while preventing overfitting to specific discretizations.
+        </p>
+
+        <h3 class="title is-4">Multi-Step Loss</h3>
+        <p>
+          We train with a multi-step objective that supervises entire rollout windows:
+        </p>
+        <div class="has-text-centered" style="margin: 1.5em 0;">
+          $$
+          \mathcal{L}_{\text{multi-step}} = \sum_{\tau=1}^{K}\Big(\|\widehat{\mathbf{q}}^{(t+\tau)}-\mathbf{q}^{(t+\tau)}\|_2^2 + \|\widehat{\mathbf{p}}^{(t+\tau)}-\mathbf{p}^{(t+\tau)}\|_2^2\Big)
+          $$
+        </div>
+        <p>
+          This enhances trajectory-level consistency and reduces error accumulation compared to one-step training followed by autoregressive rollout.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Tasks & Results</h2>
+      <p class="subtitle has-text-centered">Click on each task to view demonstrations</p>
+      
+      <div class="columns is-multiline is-centered" style="margin-top: 2em;">
+        <!-- Row 1 -->
+        <div class="column is-4">
+          <div class="task-card" id="card-plate-deform" onclick="showDemo('plate-deform', 'Plate Deformation', 'A flat plate subjected to external forces of varying positions and magnitudes, simulated with linear elasticity')">
+            <div class="task-title">Plate Deformation</div>
+            <div class="task-preview">
+              <img src="./assets/plate-deform.png" alt="Plate Deformation">
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-4">
+          <div class="task-card" id="card-sphere-cloth" onclick="showDemo('sphere-cloth', 'Sphere-Cloth', 'A ball dropped from random positions onto a cloth mesh, producing elastic deformation with contact dynamics')">
+            <div class="task-title">Sphere-Cloth</div>
+            <div class="task-preview">
+              <img src="./assets/sphere-cloth.png" alt="Sphere-Cloth">
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-4">
+          <div class="task-card" id="card-impact-plate" onclick="showDemo('impact-plate', 'Impact Plate', 'An elastic plate under impact with a rigid ball, testing long-range stress and displacement propagation')">
+            <div class="task-title">Impact Plate</div>
+            <div class="task-preview">
+              <img src="./assets/impact-plate.png" alt="Impact Plate">
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="column is-4">
+          <div class="task-card" id="card-wave-balls" onclick="showDemo('wave-balls', 'Wave Balls', 'Surface waves on water generated by three balls moving linearly from different initial positions')">
+            <div class="task-title">Wave Balls</div>
+            <div class="task-preview">
+              <img src="./assets/wave-balls.png" alt="Wave Balls">
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-4">
+          <div class="task-card" id="card-cylinder-flow" onclick="showDemo('cylinder-flow', 'Cylinder Flow', 'Incompressible fluid flow around cylindrical obstacles with vortex shedding. We use only the initial transient phase before periodic steady state.')">
+            <div class="task-title">Cylinder Flow</div>
+            <div class="task-preview">
+              <img src="./assets/cylinder-flow.png" alt="Cylinder Flow">
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-4">
+          <div class="task-card" id="card-kuramoto" onclick="showDemo('kuramoto', 'Kuramoto-Sivashinsky', 'Chaotic spatio-temporal evolution of a scalar field governed by the 4th-order KS equation')">
+            <div class="task-title">Kuramoto-Sivashinsky</div>
+            <div class="task-preview">
+              <img src="./assets/kuramoto.png" alt="Kuramoto-Sivashinsky">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Demo Display Area -->
+      <div id="demo-display" class="demo-display">
+        <h3 class="demo-title" id="demo-title"></h3>
+        <img id="demo-gif" src="" alt="Task Demo">
+        <p class="demo-desc" id="demo-desc"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@inproceedings{hoang2026igns,
+  title={Improving Long-Range Interactions in Graph Neural Simulators via Hamiltonian Dynamics},
+  author={Hoang, Tai and Trenta, Alessandro and Gravina, Alessio and 
+          Freymuth, Niklas and Becker, Philipp and Bacciu, Davide and Neumann, Gerhard},
+  booktitle={International Conference on Learning Representations (ICLR)},
+  year={2026}
+}</code></pre>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <p>
+          © 2026 Autonomous Learning Robots, Karlsruhe Institute of Technology
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function showDemo(taskId, title, description) {
+      const display = document.getElementById('demo-display');
+      const gif = document.getElementById('demo-gif');
+      const titleEl = document.getElementById('demo-title');
+      const descEl = document.getElementById('demo-desc');
+      const cards = document.querySelectorAll('.task-card');
+      
+      // Remove active class from all cards
+      cards.forEach(card => card.classList.remove('active'));
+      
+      // Add active class to clicked card
+      document.getElementById('card-' + taskId).classList.add('active');
+      
+      // Update demo content
+      titleEl.textContent = title;
+      gif.src = './assets/' + taskId + '.gif';
+      gif.alt = title + ' Demo';
+      descEl.textContent = description;
+      
+      // Show demo display
+      display.classList.add('active');
+      
+      // Scroll to demo
+      display.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+
+</body>
+
+</html>

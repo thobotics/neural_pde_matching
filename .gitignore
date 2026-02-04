@@ -148,7 +148,7 @@ cython_debug/
 .vscode/
 
 outputs/
-*.png
+# *.png
 
 wandb_backup/
 lightning_logs
