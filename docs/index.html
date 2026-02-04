@@ -225,22 +225,22 @@
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" style="background: #fafafa; padding: 4rem 1.5rem;">
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3">Abstract</h2>
-          <div class="content has-text-justified">
-            <p>
+          <h2 class="title is-3" style="margin-bottom: 2rem;">Abstract</h2>
+          <div class="content has-text-justified" style="line-height: 1.8;">
+            <p style="margin-bottom: 1.5rem;">
               Learning to simulate complex physical systems from data has emerged as a promising way to overcome the limitations of traditional numerical solvers, which often require prohibitive computational costs for high-fidelity solutions. 
               Recent Graph Neural Simulators (GNSs) accelerate simulations by learning dynamics on graph-structured data, yet often struggle to capture long-range interactions and suffer from error accumulation under autoregressive rollouts. 
             </p>
-            <p>
+            <p style="margin-bottom: 1.5rem;">
               To address these challenges, we propose <strong> Information-preserving Graph Neural Simulator (IGNS) </strong>, a graph-based neural simulator built on the principles of Hamiltonian dynamics. 
               This structure guarantees preservation of information across the graph, while extending to port-Hamiltonian systems allows the model to capture a broader class of dynamics, including non-conservative effects. 
               IGNS further incorporates a warmup phase to initialize global context, geometric encoding to handle irregular meshes, and a multi-step training objective that facilitates PDE matching, where the trajectory produced by integrating the port-Hamiltonian core aligns with the ground-truth trajectory, thereby reducing rollout error. 
             </p>
-            <p>
+            <p style="margin-bottom: 1.5rem;">
               To evaluate these properties systematically, we introduce new benchmarks that target long-range dependencies and challenging external forcing scenarios. 
               Across all tasks, IGNS consistently outperforms state-of-the-art GNSs, achieving higher accuracy and stability under challenging and complex dynamical systems.             </p>
           </div>
@@ -249,65 +249,65 @@
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" style="padding: 4rem 1.5rem;">
     <div class="container is-max-desktop">
-      <h2 class="title is-3">Method</h2>
-      <div class="content has-text-justified">
-        <p>
+      <h2 class="title is-3" style="margin-bottom: 2rem; text-align: center;">Method</h2>
+      <div class="content has-text-justified" style="line-height: 1.8;">
+        <p style="margin-bottom: 2.5rem; font-size: 1.05rem;">
           IGNS builds on four key components: <strong>(i) Port-Hamiltonian formalism</strong> to capture energy-conserving and non-conservative behavior, <strong>(ii) Warmup phase</strong> to establish global context, <strong>(iii) Geometric encoding</strong> for irregular meshes, and <strong>(iv) Multi-step objective</strong> to reduce error accumulation.
         </p>
         
-        <h3 class="title is-4">Port-Hamiltonian Dynamics</h3>
-        <p>
+        <h3 class="title is-4" style="margin-top: 3rem; margin-bottom: 1.5rem; padding-top: 2rem; border-top: 1px solid #e0e0e0;">Port-Hamiltonian Dynamics</h3>
+        <p style="margin-bottom: 1rem;">
           We parameterize the Hamiltonian $H_\theta(t, \mathbf{X})$ and evolve the joint state according to:
         </p>
-        <div class="has-text-centered" style="margin: 1.5em 0;">
+        <div class="has-text-centered" style="margin: 2rem 0; padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
           $$
           \dot{\mathbf{x}}_i = \mathbf{J}\nabla_{\mathbf{x}_i} H_\theta(t, \mathbf{X}) - \begin{bmatrix}0\\ \mathbf{D}_\theta \nabla_{\mathbf{p}_i} H_\theta\end{bmatrix} + \begin{bmatrix}0\\ \mathbf{r}_\theta(t, \mathbf{X})\end{bmatrix}
           $$
         </div>
-        <p>
+        <p style="margin-bottom: 1rem;" style="margin-bottom: 1rem;">
           where $\mathbf{x}_i=[\mathbf{q};\mathbf{p}]^T_i$ represents generalized coordinates and momenta, and $\mathbf{J}$ encodes the symplectic structure. The damping and forcing terms enable modeling of non-conservative systems while maintaining the energy-preserving structure. We parameterize the Hamiltonian as:
         </p>
-        <div class="has-text-centered" style="margin: 1.5em 0;">
+        <div class="has-text-centered" style="margin: 2rem 0; padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
           $$
           H_\theta(t, \mathbf{X}) = \sum_{i \in \mathcal{V}} \tilde{\sigma} \left( \mathbf{W}(t) \mathbf{x}_i + \sum_{j \in \mathcal{N}_i} \mathbf{V}(t) \mathbf{x}_{j} \right)^T \cdot \mathbf{1}_d
           $$
         </div>
-        <p>
+        <p style="margin-bottom: 1rem;">
           where $\tilde{\sigma}$ is an anti-derivative of a non-linear activation, $\mathbf{1}_d$ is a row vector of ones, and $\mathbf{W}(t)$, $\mathbf{V}(t)$ are block diagonal matrices that ensure separation into the $\mathbf{q}$ and $\mathbf{p}$ components.
         </p>
 
-        <h3 class="title is-4">Warmup Phase</h3>
-        <p>
+        <h3 class="title is-4" style="margin-top: 3rem; margin-bottom: 1.5rem; padding-top: 2rem; border-top: 1px solid #e0e0e0;">Warmup Phase</h3>
+        <p style="margin-bottom: 1rem;">
           To capture long-range interactions from the start, we perform $l$ rounds of message passing without advancing time. This broadcasts information across the graph up to radius $l$ from each node, providing global context that is preserved throughout the rollout thanks to the energy-conserving core.
         </p>
 
-        <h3 class="title is-4">Geometric Encoding</h3>
-        <p>
+        <h3 class="title is-4" style="margin-top: 3rem; margin-bottom: 1.5rem; padding-top: 2rem; border-top: 1px solid #e0e0e0;">Geometric Encoding</h3>
+        <p style="margin-bottom: 1rem;">
           We embed geometric features directly into edge attributes to capture spatial structure on irregular meshes. Each edge feature encodes displacement vectors ($\mathbf{s}_{ij}=\text{pos}_j - \text{pos}_i$) and distances ($d_{ij}=\|\text{pos}_j - \text{pos}_i\|_2$), enabling the model to leverage mesh geometry while preventing overfitting to specific discretizations.
         </p>
 
-        <h3 class="title is-4">Multi-Step Loss</h3>
-        <p>
+        <h3 class="title is-4" style="margin-top: 3rem; margin-bottom: 1.5rem; padding-top: 2rem; border-top: 1px solid #e0e0e0;">Multi-Step Loss</h3>
+        <p style="margin-bottom: 1rem;">
           We train with a multi-step objective that supervises entire rollout windows:
         </p>
-        <div class="has-text-centered" style="margin: 1.5em 0;">
+        <div class="has-text-centered" style="margin: 2rem 0; padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
           $$
           \mathcal{L}_{\text{multi-step}} = \sum_{\tau=1}^{K}\Big(\|\widehat{\mathbf{q}}^{(t+\tau)}-\mathbf{q}^{(t+\tau)}\|_2^2 + \|\widehat{\mathbf{p}}^{(t+\tau)}-\mathbf{p}^{(t+\tau)}\|_2^2\Big)
           $$
         </div>
-        <p>
+        <p style="margin-bottom: 1rem;">
           This enhances trajectory-level consistency and reduces error accumulation compared to one-step training followed by autoregressive rollout.
         </p>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" style="background: #fafafa; padding: 4rem 1.5rem;">
     <div class="container is-max-desktop">
-      <h2 class="title is-3">Tasks & Results</h2>
-      <p class="subtitle has-text-centered">Click on each task to view demonstrations</p>
+      <h2 class="title is-3" style="margin-bottom: 1rem; text-align: center;">Tasks & Results</h2>
+      <p class="subtitle has-text-centered" style="margin-bottom: 3rem; color: #666;">Click on each task to view demonstrations</p>
       
       <div class="columns is-multiline is-centered" style="margin-top: 2em;">
         <!-- Row 1 -->
@@ -376,16 +376,19 @@
     </div>
   </section>
 
-  <section class="section" id="BibTeX">
+  <section class="section" id="BibTeX" style="padding: 4rem 1.5rem;">
     <div class="container is-max-desktop content">
-      <h2 class="title">BibTeX</h2>
-      <pre><code>@inproceedings{hoang2026igns,
+      <h2 class="title" style="margin-bottom: 2rem; text-align: center;">BibTeX</h2>
+<pre><code>@inproceedings{
+  hoang2026igns,
   title={Improving Long-Range Interactions in Graph Neural Simulators via Hamiltonian Dynamics},
   author={Hoang, Tai and Trenta, Alessandro and Gravina, Alessio and 
           Freymuth, Niklas and Becker, Philipp and Bacciu, Davide and Neumann, Gerhard},
-  booktitle={International Conference on Learning Representations (ICLR)},
-  year={2026}
-}</code></pre>
+  booktitle={The Fourteenth International Conference on Learning Representations},
+  year={2026},
+  url={https://openreview.net/forum?id=x66u6TEDUw}
+}
+</code></pre>
     </div>
   </section>
 
