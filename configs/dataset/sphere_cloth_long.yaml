@@ -1,0 +1,12 @@
+# @package dataset
+# SphereCloth dataset configuration
+
+root: ./dataset_public/sphere_cloth_long
+window_size: 99
+window_shift: 99
+val_window_size: 99
+val_window_shift: 99
+train_n_sequences: null
+val_n_sequences: null
+shuffle: True
+pin_memory: True

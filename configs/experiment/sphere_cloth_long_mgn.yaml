@@ -10,7 +10,7 @@ defaults:
   - /callbacks: default
   - /cluster: local
   - /env: sphere_cloth
-  - /dataset: sphere_cloth
+  - /dataset: sphere_cloth_long
   - override /hydra/job_logging: colorlog
   - override /hydra/hydra_logging: colorlog
   - _self_
@@ -55,5 +55,3 @@ logger:
 dataset:
   window_size: 2
   window_shift: 1
-  val_window_size: 49
-  val_window_shift: 49

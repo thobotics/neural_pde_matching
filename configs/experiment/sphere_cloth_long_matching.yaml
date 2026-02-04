@@ -10,7 +10,7 @@ defaults:
   - /callbacks: default
   - /cluster: local
   - /env: sphere_cloth
-  - /dataset: sphere_cloth
+  - /dataset: sphere_cloth_long
   - override /hydra/job_logging: colorlog
   - override /hydra/hydra_logging: colorlog
   - _self_
@@ -52,9 +52,3 @@ logger:
   group: SphereCloth_100
   job_type: ${model.dynamic_name}
   name: scc_${model.dynamic_name}_seed=${seed}
-
-dataset:
-  window_size: 99
-  window_shift: 99
-  val_window_size: 99
-  val_window_shift: 99
