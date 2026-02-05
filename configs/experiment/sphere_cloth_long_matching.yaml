@@ -20,7 +20,7 @@ experiment_name: SphereCloth
 seed: 42
 lr: 5e-4
 epochs: 5000
-batch_size: 8
+batch_size: 4
 num_workers: 4
 scheduler: null
 debug: False
@@ -34,7 +34,7 @@ trainer:
   check_val_every_n_epoch: 20
 
 model:
-  warmup_steps: 20
+  warmup_steps: 40
 
 # Long variant uses different env name
 env:

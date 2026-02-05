@@ -333,7 +333,7 @@ class SphereClothCouplingVisualizer(Visualizer):
         # Adjust bounds
         # umin[2] = min(umin[2], -1.0) if umin[2] != 0.0 else -5.0
         # umax[2] = max(umax[2], 15.0) if umax[2] != 0.0 else 15.0
-        umin[2] = 9.0
+        umin[2] = 7.0 if self.trajectory_length == 100 else 9.0
         umax[2] = 10.5
 
         bounds = [(umin[i] - abs(umin[i]) * padding, umax[i] + abs(umax[i]) * padding) for i in range(3)]
