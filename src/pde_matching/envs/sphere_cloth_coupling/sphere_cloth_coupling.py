@@ -173,7 +173,7 @@ class SphereClothCouplingEnv(TrajectoryDatasetMixin, Env):
     
     @property
     def interesting_indices(self) -> Tensor:
-        return [2, 2, 0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12]
+        return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
     def loss_mask(self, input: Tensor) -> Tensor:
         """Only predict cloth nodes (both regular cloth and cloth corners)."""
