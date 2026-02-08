@@ -7,7 +7,14 @@
   <meta name="keywords" content="Graph Neural Networks, Neural Simulators, Hamiltonian Dynamics, PDEs, Machine Learning, Physical Simulation, ICLR 2026, Deep Learning, Port-Hamiltonian Systems">
   <meta name="author" content="Tai Hoang, Alessandro Trenta, Alessio Gravina, Niklas Freymuth, Philipp Becker, Davide Bacciu, Gerhard Neumann">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <link rel="canonical" href="https://thobotics.github.io/neural_pde_matching/">
+  
+  <!-- Preconnect to external resources for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="https://ajax.googleapis.com">
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -44,22 +51,84 @@
   {
     "@context": "https://schema.org",
     "@type": "ScholarlyArticle",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://thobotics.github.io/neural_pde_matching/"
+    },
     "headline": "Improving Long-Range Interactions in Graph Neural Simulators via Hamiltonian Dynamics",
-    "description": "A graph-based neural simulator built on the principles of Hamiltonian dynamics for learning complex physical systems with long-range interactions.",
+    "alternativeHeadline": "IGNS: Information-preserving Graph Neural Simulator",
+    "description": "A graph-based neural simulator built on the principles of Hamiltonian dynamics for learning complex physical systems with long-range interactions. Published at ICLR 2026.",
     "author": [
-      {"@type": "Person", "name": "Tai Hoang", "affiliation": "Karlsruhe Institute of Technology"},
-      {"@type": "Person", "name": "Alessandro Trenta", "affiliation": "University of Pisa"},
-      {"@type": "Person", "name": "Alessio Gravina", "affiliation": "University of Pisa"},
-      {"@type": "Person", "name": "Niklas Freymuth", "affiliation": "Karlsruhe Institute of Technology"},
-      {"@type": "Person", "name": "Philipp Becker", "affiliation": "Karlsruhe Institute of Technology"},
-      {"@type": "Person", "name": "Davide Bacciu", "affiliation": "University of Pisa"},
-      {"@type": "Person", "name": "Gerhard Neumann", "affiliation": "Karlsruhe Institute of Technology"}
+      {
+        "@type": "Person",
+        "name": "Tai Hoang",
+        "url": "https://thobotics.github.io/",
+        "affiliation": {"@type": "Organization", "name": "Karlsruhe Institute of Technology"}
+      },
+      {
+        "@type": "Person",
+        "name": "Alessandro Trenta",
+        "url": "https://alexthirty.github.io/",
+        "affiliation": {"@type": "Organization", "name": "University of Pisa"}
+      },
+      {
+        "@type": "Person",
+        "name": "Alessio Gravina",
+        "url": "https://pages.di.unipi.it/gravina/",
+        "affiliation": {"@type": "Organization", "name": "University of Pisa"}
+      },
+      {
+        "@type": "Person",
+        "name": "Niklas Freymuth",
+        "url": "https://nfreymuth.com/",
+        "affiliation": {"@type": "Organization", "name": "Karlsruhe Institute of Technology"}
+      },
+      {
+        "@type": "Person",
+        "name": "Philipp Becker",
+        "url": "https://pbecker93.github.io/",
+        "affiliation": {"@type": "Organization", "name": "Karlsruhe Institute of Technology"}
+      },
+      {
+        "@type": "Person",
+        "name": "Davide Bacciu",
+        "url": "https://pages.di.unipi.it/bacciu/",
+        "affiliation": {"@type": "Organization", "name": "University of Pisa"}
+      },
+      {
+        "@type": "Person",
+        "name": "Gerhard Neumann",
+        "url": "https://alr.iar.kit.edu/21_65.php",
+        "affiliation": {"@type": "Organization", "name": "Karlsruhe Institute of Technology"}
+      }
     ],
-    "datePublished": "2026",
-    "publisher": {"@type": "Organization", "name": "ICLR"},
+    "datePublished": "2026-01-15",
+    "dateModified": "2026-02-08",
+    "publisher": {
+      "@type": "Organization",
+      "name": "International Conference on Learning Representations",
+      "url": "https://iclr.cc/"
+    },
     "url": "https://openreview.net/forum?id=x66u6TEDUw",
-    "image": "https://thobotics.github.io/neural_pde_matching/assets/method.png",
-    "keywords": "Graph Neural Networks, Hamiltonian Dynamics, Physical Simulation, Machine Learning, Deep Learning"
+    "sameAs": [
+      "https://github.com/thobotics/neural_pde_matching",
+      "https://zenodo.org/records/18480131"
+    ],
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://thobotics.github.io/neural_pde_matching/assets/method.png",
+      "width": 1200,
+      "height": 630
+    },
+    "keywords": "Graph Neural Networks, Hamiltonian Dynamics, Physical Simulation, Machine Learning, Deep Learning, Port-Hamiltonian Systems, Neural Simulators, PDEs, ICLR 2026",
+    "about": [
+      {"@type": "Thing", "name": "Graph Neural Networks"},
+      {"@type": "Thing", "name": "Hamiltonian Dynamics"},
+      {"@type": "Thing", "name": "Physical Simulation"},
+      {"@type": "Thing", "name": "Machine Learning"}
+    ],
+    "inLanguage": "en",
+    "isAccessibleForFree": true
   }
   </script>
 
@@ -259,7 +328,7 @@
 
   <section class="hero teaser">
     <div class="container is-max-desktop">
-      <img src="./assets/method.png" alt="Method Overview" style="width: 100%; border-radius: 10px;">
+      <img src="./assets/method.png" alt="IGNS method overview showing warmup phase and port-Hamiltonian dynamics with multi-step supervision" style="width: 100%; border-radius: 10px;" loading="eager">
       <figcaption>
         <strong>Figure 1.</strong> A high-level overview of IGNS. The model performs an $l$-step warmup phase to incorporate broader spatial context, then evolves according to port-Hamiltonian dynamics with multi-step supervision for stable and accurate long-horizon simulations.
       </figcaption>
@@ -357,7 +426,7 @@
           <div class="task-card" id="card-plate-deform" onclick="showDemo('plate-deform', 'Plate Deformation', 'A flat plate subjected to external forces of varying positions and magnitudes, simulated with linear elasticity')">
             <div class="task-title">Plate Deformation</div>
             <div class="task-preview">
-              <img src="./assets/plate-deform.png" alt="Plate Deformation">
+              <img src="./assets/plate-deform.png" alt="Plate Deformation simulation - flat plate with external forces using linear elasticity" loading="lazy">
             </div>
           </div>
         </div>
@@ -366,7 +435,7 @@
           <div class="task-card" id="card-sphere-cloth" onclick="showDemo('sphere-cloth', 'Sphere-Cloth', 'A ball dropped from random positions onto a cloth mesh, producing elastic deformation with contact dynamics')">
             <div class="task-title">Sphere-Cloth</div>
             <div class="task-preview">
-              <img src="./assets/sphere-cloth.png" alt="Sphere-Cloth">
+              <img src="./assets/sphere-cloth.png" alt="Sphere-Cloth interaction simulation - ball dropped on cloth mesh with elastic deformation" loading="lazy">
             </div>
           </div>
         </div>
@@ -375,7 +444,7 @@
           <div class="task-card" id="card-impact-plate" onclick="showDemo('impact-plate', 'Impact Plate', 'An elastic plate under impact with a rigid ball, testing long-range stress and displacement propagation')">
             <div class="task-title">Impact Plate</div>
             <div class="task-preview">
-              <img src="./assets/impact-plate.png" alt="Impact Plate">
+              <img src="./assets/impact-plate.png" alt="Impact Plate simulation - elastic plate with rigid ball impact showing long-range stress propagation" loading="lazy">
             </div>
           </div>
         </div>
@@ -385,7 +454,7 @@
           <div class="task-card" id="card-wave-balls" onclick="showDemo('wave-balls', 'Wave Balls', 'Surface waves on water generated by three balls moving linearly from different initial positions')">
             <div class="task-title">Wave Balls</div>
             <div class="task-preview">
-              <img src="./assets/wave-balls.png" alt="Wave Balls">
+              <img src="./assets/wave-balls.png" alt="Wave Balls simulation - surface waves on water generated by moving balls" loading="lazy">
             </div>
           </div>
         </div>
@@ -394,7 +463,7 @@
           <div class="task-card" id="card-cylinder-flow" onclick="showDemo('cylinder-flow', 'Cylinder Flow', 'Incompressible fluid flow around cylindrical obstacles with vortex shedding. We use only the initial transient phase before periodic steady state.')">
             <div class="task-title">Cylinder Flow</div>
             <div class="task-preview">
-              <img src="./assets/cylinder-flow.png" alt="Cylinder Flow">
+              <img src="./assets/cylinder-flow.png" alt="Cylinder Flow simulation - incompressible fluid flow with vortex shedding around obstacles" loading="lazy">
             </div>
           </div>
         </div>
@@ -403,7 +472,7 @@
           <div class="task-card" id="card-kuramoto" onclick="showDemo('kuramoto', 'Kuramoto-Sivashinsky', 'Chaotic spatio-temporal evolution of a scalar field governed by the 4th-order KS equation')">
             <div class="task-title">Kuramoto-Sivashinsky</div>
             <div class="task-preview">
-              <img src="./assets/kuramoto.png" alt="Kuramoto-Sivashinsky">
+              <img src="./assets/kuramoto.png" alt="Kuramoto-Sivashinsky equation simulation - chaotic spatio-temporal evolution" loading="lazy">
             </div>
           </div>
         </div>
