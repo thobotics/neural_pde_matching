@@ -151,105 +151,6 @@
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
-
-  <style>
-    .task-card {
-      background: white;
-      border-radius: 10px;
-      padding: 1.5rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      height: 100%;
-      border: 2px solid #e0e0e0;
-    }
-    
-    .task-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      border-color: #3273dc;
-    }
-    
-    .task-card.active {
-      border-color: #3273dc;
-      background: #f8f9fa;
-    }
-    
-    .task-title {
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      color: #363636;
-      text-align: center;
-    }
-    
-    .task-preview {
-      background: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 200px;
-      border-radius: 5px;
-      overflow: hidden;
-    }
-    
-    .task-preview img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-    
-    .demo-display {
-      display: none;
-      margin-top: 3rem;
-      padding: 2rem;
-      background: #f8f9fa;
-      border-radius: 10px;
-      text-align: center;
-    }
-    
-    .demo-display.active {
-      display: block;
-    }
-    
-    .demo-display img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 10px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    }
-    
-    .demo-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      color: #363636;
-    }
-    
-    .demo-desc {
-      font-size: 1rem;
-      color: #666;
-      font-style: italic;
-      margin-top: 1rem;
-    }
-
-    figcaption {
-      text-align: center;
-      margin-top: 1rem;
-      font-size: 0.9rem;
-      color: #666;
-    }
-
-    .publication-links .button {
-      transition: all 0.3s ease;
-    }
-    
-    .publication-links .button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-      background-color: #3273dc !important;
-      border-color: #3273dc !important;
-    }
-  </style>
 </head>
 
 <body>
@@ -259,7 +160,7 @@
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">Improving Long-Range Interactions in Graph Neural Simulators via Hamiltonian Dynamics</h1>
+            <h1 class="title is-1 publication-title fade-in">Improving Long-Range Interactions in Graph Neural Simulators via Hamiltonian Dynamics</h1>
             <div class="is-size-5 publication-authors">
               <span class="author-block">
                 <a href="https://thobotics.github.io/">Tai Hoang</a><sup>1</sup>,</span>
@@ -318,7 +219,9 @@
                   </a>
                 </span>
               </div>
-              This paper was published at <a href="https://iclr.cc/Conferences/2026"> ICLR 2026 </a>.
+              <div class="publication-venue">
+                This paper was published at <a href="https://iclr.cc/Conferences/2026" target="_blank" rel="noopener">ICLR 2026</a>.
+              </div>
             </div>
           </div>
         </div>
@@ -339,7 +242,7 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3" style="margin-bottom: 2rem;">Abstract</h2>
+          <h2 class="title is-3 section-heading" style="margin-bottom: 2rem;">Abstract</h2>
           <div class="content has-text-justified" style="line-height: 1.8;">
             <p style="margin-bottom: 1.5rem;">
               Learning to simulate complex physical systems from data has emerged as a promising way to overcome the limitations of traditional numerical solvers, which often require prohibitive computational costs for high-fidelity solutions. 
@@ -361,7 +264,7 @@
 
   <section class="section" style="padding: 4rem 1.5rem;">
     <div class="container is-max-desktop">
-      <h2 class="title is-3" style="margin-bottom: 2rem; text-align: center;">Method</h2>
+      <h2 class="title is-3 section-heading" style="margin-bottom: 2rem; text-align: center;">Method</h2>
       <div class="content has-text-justified" style="line-height: 1.8;">
         <p style="margin-bottom: 2.5rem; font-size: 1.05rem;">
           IGNS builds on four key components: <strong>(i) Port-Hamiltonian formalism</strong> to capture energy-conserving and non-conservative behavior, <strong>(ii) Warmup phase</strong> to establish global context, <strong>(iii) Geometric encoding</strong> for irregular meshes, and <strong>(iv) Multi-step objective</strong> to reduce error accumulation.
@@ -417,7 +320,7 @@
 
   <section class="section" style="background: #fafafa; padding: 4rem 1.5rem;">
     <div class="container is-max-desktop">
-      <h2 class="title is-3" style="margin-bottom: 1rem; text-align: center;">Tasks & Results</h2>
+      <h2 class="title is-3 section-heading" style="margin-bottom: 1rem; text-align: center;">Tasks & Results</h2>
       <p class="subtitle has-text-centered" style="margin-bottom: 3rem; color: #666;">Click on each task to view demonstrations</p>
       
       <div class="columns is-multiline is-centered" style="margin-top: 2em;">
@@ -489,7 +392,7 @@
 
   <section class="section" id="BibTeX" style="padding: 4rem 1.5rem;">
     <div class="container is-max-desktop content">
-      <h2 class="title" style="margin-bottom: 2rem; text-align: center;">BibTeX</h2>
+      <h2 class="title section-heading" style="margin-bottom: 2rem; text-align: center;">BibTeX</h2>
 <pre><code>@inproceedings{
   hoang2026igns,
   title={Improving Long-Range Interactions in Graph Neural Simulators via Hamiltonian Dynamics},
